@@ -1,14 +1,16 @@
 .footer {
     background-color: #222;
-    color: #fff;
+  
     padding: 3em;
     text-align: center;
   }
   
   .social_list {
+   
     display: flex;
     justify-content: center;
     list-style-type: none;
+    color: white;
   }
   
   .social_list li {
@@ -20,12 +22,14 @@
   }
   
   .social_list svg {
+    
     font-size: 1.5em;
     cursor: pointer;
   }
   
   .copy_right {
     margin-top: 2em;
+        color: white;
   }
   
   .copy_right span {

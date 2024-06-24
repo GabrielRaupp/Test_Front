@@ -6,6 +6,7 @@
   
   .form_control label {
     margin-bottom: 0.6em;
+    color: black;
     font-weight: bold;
   }
   
@@ -13,4 +14,6 @@
     padding: 0.7em;
     border-radius: 0;
     border: none;
+    background-color: white;
+    color: black;
   }

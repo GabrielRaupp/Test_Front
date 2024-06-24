@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  color: white;
   box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
 }
@@ -10,4 +11,7 @@ body,
 #root {
   background-color: #efefef;
   height: 100%;
+}
+h1 {
+  color: black;
 }
