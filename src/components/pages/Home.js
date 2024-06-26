@@ -9,7 +9,7 @@ function Home() {
       <h1>
         Bem-vindo ao <span>Costs</span>
       </h1>
-      <p>Comece a gerenciar os seus projetos agora mesmo!</p>
+      <p>Monte seu projeto aqui no botão abaixo pra eu entrar em contato!</p>
       <LinkButton to="/newproject" text="Criar projeto" />
       <img src={savings} alt="Savings" />
     </section>
