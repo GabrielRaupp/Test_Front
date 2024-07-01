@@ -7,9 +7,9 @@ function Home() {
   return (
     <section className={styles.home_container}>
       <h1>
-        Bem-vindo ao <span>Costs</span>
+        Bem-vindo ao <span>IntelAgend</span>
       </h1>
-      <p>Monte seu projeto aqui no botão abaixo pra eu entrar em contato!</p>
+      <p>Monte seu horario aqui no botão abaixo!</p>
       <LinkButton to="/newproject" text="Criar projeto" />
       <img src={savings} alt="Savings" />
     </section>

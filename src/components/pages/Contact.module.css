@@ -1,0 +1,12 @@
+.social_list {
+   
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    color: white;
+    width: 100%;
+  }
+
+  .social_list li {
+    margin: 0 2em;
+  }
