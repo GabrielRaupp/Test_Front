@@ -52,7 +52,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
         value={project.name}
       />
       <Input
-        type="number"
+        type="text"
         text="Horario do projeto"
         name="budget"
         placeholder="Insira o Horario"
