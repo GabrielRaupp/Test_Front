@@ -18,12 +18,13 @@ function Navbar() {
             <Link to="/">Home</Link>
           </li>
           <li className={styles.item}>
-            <Link to="/projects">Projetos</Link>
+            <Link to="/projects">Agenda</Link>
           </li>
 
           <li className={styles.item}>
             <Link to="/contact">Contato</Link>
           </li>
+          
         </ul>
       </Container>
     </div>

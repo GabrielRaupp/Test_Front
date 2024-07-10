@@ -45,17 +45,17 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
     <form onSubmit={submit} className={styles.form}>
       <Input
         type="text"
-        text="Nome do projeto"
+        text="Nome do Lembrete"
         name="name"
-        placeholder="Insira o nome do projeto"
+        placeholder="Insira aqui"
         handleOnChange={handleChange}
         value={project.name}
       />
       <Input
         type="number"
-        text="Orçamento do projeto"
+        text="Horario do projeto"
         name="budget"
-        placeholder="Insira o orçamento total"
+        placeholder="Insira o Horario"
         handleOnChange={handleChange}
         value={project.budget}
       />
