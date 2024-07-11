@@ -5,8 +5,10 @@ import styles from "./Navbar.module.css";
 
 import logo from "../../img/costs_logo.png";
 
-<span>IntelAgend</span>
-function Navbar() {
+
+function Navbar()
+ {
+  <span>IntelAgend</span>
   return (
     <div className={styles.navbar}>
       <Container>
@@ -23,6 +25,9 @@ function Navbar() {
 
           <li className={styles.item}>
             <Link to="/contact">Contato</Link>
+          </li>
+          <li className={styles.item}>
+            <Link to="/Sing.up">Minha conta</Link>
           </li>
           
         </ul>
