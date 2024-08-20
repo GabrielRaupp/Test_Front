@@ -1,14 +1,11 @@
 import { useHistory } from 'react-router-dom'
-
 import ProjectForm from '../project/ProjectForm'
-
 import styles from './NewProject.module.css'
 
 function NewProject() {
   const history = useHistory()
 
   function createPost(project) {
-    // initialize cost and services
     project.cost = 0
     project.services = []
 
@@ -21,15 +18,15 @@ function NewProject() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        history.push('/projects', { message: 'Projeto criado com sucesso!' })
+        history.push('/projects', { state: { message: 'Projeto criado com sucesso!' } })
       })
   }
 
   return (
     <div className={styles.newproject_container}>
-      <h1>Montar horario</h1>
-      <p>Crie seu horario pra depois adicionar na sua agenda</p>
-      <ProjectForm handleSubmit={createPost} btnText="Criar Projeto" />
+      <h1>Criar Horário</h1>
+      <p>Crie seu horário para depois adicionar os serviços</p>
+      <ProjectForm handleSubmit={createPost} btnText="Criar Horário" />
     </div>
   )
 }

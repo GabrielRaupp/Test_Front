@@ -13,28 +13,16 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Switch>
-        <Container customClass="min-height">
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/projects">
-            <Projects />
-          </Route>
-          <Route path="/company">
-            <Company />
-          </Route>
-          <Route path="/contact">
-            <Contact />
-          </Route>
-          <Route path="/newproject">
-            <NewProject />
-          </Route>
-          <Route path="/project/:id">
-            <Project />
-          </Route>
-        </Container>
-      </Switch>
+      <Container customClass="min-height">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/projects" component={Projects} />
+          <Route path="/company" component={Company} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/newproject" component={NewProject} />
+          <Route path="/project/:id" component={Project} />
+        </Switch>
+      </Container>
       <Footer />
     </Router>
   )

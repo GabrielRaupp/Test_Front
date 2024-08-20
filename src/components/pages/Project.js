@@ -1,10 +1,7 @@
-import { parse, v4 as uuidv4 } from 'uuid'
-
+import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-
 import styles from './Project.module.css'
-
 import Loading from '../layout/Loading'
 import Container from '../layout/Container'
 import ProjectForm from '../project/ProjectForm'
@@ -14,7 +11,7 @@ import ServiceCard from '../service/ServiceCard'
 
 function Project() {
   let { id } = useParams()
-  const [project, setProject] = useState([])
+  const [project, setProject] = useState({})
   const [showProjectForm, setShowProjectForm] = useState(false)
   const [showServiceForm, setShowServiceForm] = useState(false)
   const [services, setServices] = useState([])
@@ -22,7 +19,6 @@ function Project() {
   const [type, setType] = useState('success')
 
   useEffect(() => {
-    // Para ver o loading
     setTimeout(
       () =>
         fetch(`http://localhost:3000/projects/${id}`, {
@@ -36,12 +32,11 @@ function Project() {
             setProject(data)
             setServices(data.services)
           }),
-      0,
+      0
     )
   }, [id])
 
   function editPost(project) {
-    // budget validation
     if (project.budget < project.cost) {
       setMessage('O Orçamento não pode ser menor que o custo do projeto!')
       setType('error')
@@ -65,16 +60,12 @@ function Project() {
   }
 
   function createService(project) {
-    // last service
     const lastService = project.services[project.services.length - 1]
 
     lastService.id = uuidv4()
-
     const lastServiceCost = lastService.cost
-
     const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
 
-    // maximum value validation
     if (newCost > parseFloat(project.budget)) {
       setMessage('Orçamento ultrapassado, verifique o valor do serviço!')
       setType('error')
@@ -82,47 +73,64 @@ function Project() {
       return false
     }
 
-    // add service cost to project cost total
     project.cost = newCost
 
-    fetch(`http://localhost:3000/projects/${project.id}`, {
-      method: 'PATCH',
+    fetch(`http://localhost:3000/services`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(project),
+      body: JSON.stringify(lastService),
     })
       .then((resp) => resp.json())
-      .then((data) => {
-        setServices(data.services)
+      .then((serviceData) => {
+        setServices([...services, serviceData])
         setShowServiceForm(!showServiceForm)
         setMessage('Serviço adicionado!')
         setType('success')
+
+        // Atualiza o custo total do projeto
+        return fetch(`http://localhost:3000/projects/${project.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cost: newCost }),
+        })
       })
+      .then(() => setProject({ ...project, cost: newCost }))
   }
 
-  function removeService(id, cost) {
-    const servicesUpdated = project.services.filter(
-      (service) => service.id !== id,
-    )
-
-    const projectUpdated = project
-
-    projectUpdated.services = servicesUpdated
-    projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost)
-
-    fetch(`http://localhost:3000/projects/${projectUpdated.id}`, {
-      method: 'PATCH',
+  function removeService(serviceId, cost) {
+    fetch(`http://localhost:3000/services/${serviceId}`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(projectUpdated),
     })
-      .then((resp) => resp.json())
-      .then((data) => {
+      .then(() => {
+        const servicesUpdated = project.services.filter(
+          (service) => service.id !== serviceId
+        )
+
+        const projectUpdated = {
+          ...project,
+          services: servicesUpdated,
+          cost: parseFloat(project.cost) - parseFloat(cost),
+        }
+
         setProject(projectUpdated)
         setServices(servicesUpdated)
         setMessage('Serviço removido com sucesso!')
+
+        // Atualiza o custo total do projeto
+        return fetch(`http://localhost:3000/projects/${projectUpdated.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cost: projectUpdated.cost }),
+        })
       })
   }
 

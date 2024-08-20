@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-
 import Container from '../layout/Container'
 import Loading from '../layout/Loading'
-
 import LinkButton from '../layout/LinkButton'
 import ProjectCard from '../project/ProjectCard'
 import Message from '../layout/Message'
-
 import styles from './Projects.module.css'
 
 function Projects() {
@@ -22,7 +19,6 @@ function Projects() {
   }
 
   useEffect(() => {
-    // Para ver o loading
     setTimeout(
       () =>
         fetch('http://localhost:3000/projects', {
@@ -36,7 +32,7 @@ function Projects() {
             setProjects(data)
             setRemoveLoading(true)
           }),
-      100,
+      100
     )
   }, [])
 
@@ -47,8 +43,7 @@ function Projects() {
         'Content-Type': 'application/json',
       },
     })
-      .then((resp) => resp.json())
-      .then((data) => {
+      .then(() => {
         setProjects(projects.filter((project) => project.id !== id))
         setProjectMessage('Projeto removido com sucesso!')
       })
@@ -58,7 +53,7 @@ function Projects() {
     <div className={styles.project_container}>
       <div className={styles.title_container}>
         <h1>Meus Horários</h1>
-        <LinkButton to="/newproject" text="Montar horario" />
+        <LinkButton to="/newproject" text="Montar horário" />
       </div>
       {message && <Message type="success" msg={message} />}
       {projectMessage && <Message type="success" msg={projectMessage} />}
