@@ -8,6 +8,8 @@ import NewProject from './components/pages/NewProject'
 import Company from './components/pages/Company'
 import Contact from './components/pages/Contact'
 import Project from './components/pages/Project'
+import SingUp from './components/pages/SingUp'
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/projects" component={Projects} />
+          <Route path="/SingUp" component={SingUp} />
           <Route path="/company" component={Company} />
           <Route path="/contact" component={Contact} />
           <Route path="/newproject" component={NewProject} />
