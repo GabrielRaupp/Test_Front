@@ -19,11 +19,12 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/projects" component={Projects} />
-          <Route path="/SingUp" component={SingUp} />
           <Route path="/company" component={Company} />
           <Route path="/contact" component={Contact} />
           <Route path="/newproject" component={NewProject} />
           <Route path="/project/:id" component={Project} />
+          <Route path="/singup" component={SingUp} />
+
         </Switch>
       </Container>
       <Footer />

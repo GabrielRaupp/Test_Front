@@ -27,7 +27,7 @@ function Navbar()
             <Link to="/contact">Contato</Link>
           </li>
           <li className={styles.item}>
-            <Link to="/Sing.up">Minha conta</Link>
+            <Link to="/singup">Minha conta</Link>
           </li>
           
         </ul>

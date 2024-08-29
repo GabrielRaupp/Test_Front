@@ -1,36 +1,23 @@
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './SingUp.module.css'
-import { FaFacebook, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa'
 
 
 
 function SingUp() {
   return (
-    <section className={styles.Contact}>
+    <section >
         
       <h1 className={styles.h1} >
-        Bem-vindo as Minhas Redes de contato
+      Click em um botão a baixo
       </h1>
-      <ul className={styles.social_list}>
-        <li>
-          <a href='https://www.facebook.com/?locale=pt_BR'>
-          <FaFacebook />
-          </a>
-        </li>
-        <li>
-          <a href='https://www.instagram.com/gabriel.raupp17/'>
-          <FaInstagram />
-          </a>
-        </li>
-        <li>
-          <a href='https://www.linkedin.com/checkpoint/challenge/AgFw1s0up6YjiwAAAZBLshnxQjlnMVOY525QlcnAvM_jECGIVnmyMp8ifWbemZrPEXKhyxLzOVl0U9LahPvlX0wAryJjSA?ut=3rSFr8wbj9eHk1'>
-          <FaLinkedin />
-          </a>
-        </li>
-        <li>
-          <a href='https://github.com/GabrielRaupp'>
-          <FaGithub />
-          </a>
-        </li>
+      <ul className={styles.div}>
+        <h1 className={styles.conta} >
+          <Link to="/singup" > Já tenho conta </Link>
+        </h1> 
+          <h1 className={styles.conta } >
+          <Link to="/singup">  Não tenho conta </Link>
+            
+          </h1>
       </ul>
     </section>
   )
