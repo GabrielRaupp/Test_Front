@@ -1,13 +1,17 @@
 .h1 {
   font-size: 2.5rem;
-  padding: 5.5em;
+  padding: 1.5em;
+  padding-top: 6.5em;
+  padding-left: 4.5em;
   color: black;
   text-align: center;
+  justify-content: center;
+
 }
 
 .conta {
-  font-size: 1.2rem;
-  padding: 0.5em;
+  font-size: 2.2rem;
+  padding: 0.3em;
   margin: 0.5em;
   color: black;
   text-align: center;
@@ -15,6 +19,8 @@
   border: 3px solid black;
   border-radius: 12pt;
   display: inline-block;
+  justify-content: center;
+  text-align: center;
 }
 
 .conta a {
@@ -24,11 +30,13 @@
 
 .conta a:hover {
   text-decoration: none;
-  transition: font-size 0.3s ease;
-  font-size: 25px;
+  transition: font-size 0.5s ease;
+  font-size: 2.4rem;
+
 }
 
 .div {
   justify-content: center;
   text-align: center;
+  padding-left: 8.5em;
 }

@@ -5,10 +5,9 @@ import styles from './SingUp.module.css'
 
 function SingUp() {
   return (
-    <section >
+    <section className={styles.div} >
         
       <h1 className={styles.h1} >
-      Click em um botão a baixo
       </h1>
       <ul className={styles.div}>
         <h1 className={styles.conta} >

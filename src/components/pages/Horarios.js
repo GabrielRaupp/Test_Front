@@ -3,14 +3,14 @@ import { useLocation } from 'react-router-dom'
 import Container from '../layout/Container'
 import Loading from '../layout/Loading'
 import LinkButton from '../layout/LinkButton'
-import ProjectCard from '../project/ProjectCard'
+import HorarioCard from '../horario/HorarioCard'
 import Message from '../layout/Message'
-import styles from './Projects.module.css'
+import styles from './Horarios.module.css'
 
-function Projects() {
-  const [projects, setProjects] = useState([])
+function Horarios() {
+  const [horarios, setHorarios] = useState([])
   const [removeLoading, setRemoveLoading] = useState(false)
-  const [projectMessage, setProjectMessage] = useState('')
+  const [horarioMessage, setHorarioMessage] = useState('')
 
   const location = useLocation()
   let message = ''
@@ -21,7 +21,7 @@ function Projects() {
   useEffect(() => {
     setTimeout(
       () =>
-        fetch('http://localhost:3000/projects', {
+        fetch('http://localhost:3000/horarios', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -29,53 +29,53 @@ function Projects() {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            setProjects(data)
+            setHorarios(data)
             setRemoveLoading(true)
           }),
       100
     )
   }, [])
 
-  function removeProject(id) {
-    fetch(`http://localhost:3000/projects/${id}`, {
+  function removeHorario(id) {
+    fetch(`http://localhost:3000/horarios/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then(() => {
-        setProjects(projects.filter((project) => project.id !== id))
-        setProjectMessage('Projeto removido com sucesso!')
+        setHorarios(horarios.filter((horario) => horario.id !== id))
+        setHorarioMessage('Horário removido com sucesso!')
       })
   }
 
   return (
-    <div className={styles.project_container}>
+    <div className={styles.horario_container}>
       <div className={styles.title_container}>
         <h1>Meus Horários</h1>
-        <LinkButton to="/newproject" text="Montar horário" />
+        <LinkButton to="/newhorario" text="Montar horário" />
       </div>
       {message && <Message type="success" msg={message} />}
-      {projectMessage && <Message type="success" msg={projectMessage} />}
+      {horarioMessage && <Message type="success" msg={horarioMessage} />}
       <Container customClass="start">
-        {projects.length > 0 &&
-          projects.map((project) => (
-            <ProjectCard
-              id={project.id}
-              name={project.name}
-              budget={project.budget}
-              category={project.category.name}
-              key={project.id}
-              handleRemove={removeProject}
+        {horarios.length > 0 &&
+          horarios.map((horario) => (
+            <HorarioCard
+              id={horario.id}
+              name={horario.name}
+              budget={horario.budget}
+              category={horario.category.name}
+              key={horario.id}
+              handleRemove={removeHorario}
             />
           ))}
         {!removeLoading && <Loading />}
-        {removeLoading && projects.length === 0 && (
-          <p>Não há projetos cadastrados!</p>
+        {removeLoading && horarios.length === 0 && (
+          <p>Não há horários cadastrados!</p>
         )}
       </Container>
     </div>
   )
 }
 
-export default Projects
+export default Horarios

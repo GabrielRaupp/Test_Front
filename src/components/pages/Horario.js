@@ -1,18 +1,18 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import styles from './Project.module.css'
+import styles from './Horario.module.css'
 import Loading from '../layout/Loading'
 import Container from '../layout/Container'
-import ProjectForm from '../project/ProjectForm'
+import HorarioForm from '../horario/HorarioForm'
 import Message from '../layout/Message'
 import ServiceForm from '../service/ServiceForm'
 import ServiceCard from '../service/ServiceCard'
 
-function Project() {
+function Horario() {
   let { id } = useParams()
-  const [project, setProject] = useState({})
-  const [showProjectForm, setShowProjectForm] = useState(false)
+  const [horario, setHorario] = useState({})
+  const [showHorarioForm, setShowHorarioForm] = useState(false)
   const [showServiceForm, setShowServiceForm] = useState(false)
   const [services, setServices] = useState([])
   const [message, setMessage] = useState('')
@@ -21,7 +21,7 @@ function Project() {
   useEffect(() => {
     setTimeout(
       () =>
-        fetch(`http://localhost:3000/projects/${id}`, {
+        fetch(`http://localhost:3000/horarios/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -29,51 +29,51 @@ function Project() {
         })
           .then((resp) => resp.json())
           .then((data) => {
-            setProject(data)
+            setHorario(data)
             setServices(data.services)
           }),
       0
     )
   }, [id])
 
-  function editPost(project) {
-    if (project.budget < project.cost) {
+  function editPost(horario) {
+    if (horario.budget < horario.cost) {
       setMessage('O Orçamento não pode ser menor que o custo do projeto!')
       setType('error')
       return false
     }
 
-    fetch(`http://localhost:3000/projects/${project.id}`, {
+    fetch(`http://localhost:3000/horarios/${horario.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(project),
+      body: JSON.stringify(horario),
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setProject(data)
-        setShowProjectForm(!showProjectForm)
+        setHorario(data)
+        setShowHorarioForm(!showHorarioForm)
         setMessage('Projeto atualizado!')
         setType('success')
       })
   }
 
-  function createService(project) {
-    const lastService = project.services[project.services.length - 1]
+  function createService(horario) {
+    const lastService = horario.services[horario.services.length - 1]
 
     lastService.id = uuidv4()
     const lastServiceCost = lastService.cost
-    const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
+    const newCost = parseFloat(horario.cost) + parseFloat(lastServiceCost)
 
-    if (newCost > parseFloat(project.budget)) {
+    if (newCost > parseFloat(horario.budget)) {
       setMessage('Orçamento ultrapassado, verifique o valor do serviço!')
       setType('error')
-      project.services.pop()
+      horario.services.pop()
       return false
     }
 
-    project.cost = newCost
+    horario.cost = newCost
 
     fetch(`http://localhost:3000/services`, {
       method: 'POST',
@@ -90,7 +90,7 @@ function Project() {
         setType('success')
 
         // Atualiza o custo total do projeto
-        return fetch(`http://localhost:3000/projects/${project.id}`, {
+        return fetch(`http://localhost:3000/horarios/${horario.id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ function Project() {
           body: JSON.stringify({ cost: newCost }),
         })
       })
-      .then(() => setProject({ ...project, cost: newCost }))
+      .then(() => setHorario({ ...horario, cost: newCost }))
   }
 
   function removeService(serviceId, cost) {
@@ -109,33 +109,33 @@ function Project() {
       },
     })
       .then(() => {
-        const servicesUpdated = project.services.filter(
+        const servicesUpdated = horario.services.filter(
           (service) => service.id !== serviceId
         )
 
-        const projectUpdated = {
-          ...project,
+        const horarioUpdated = {
+          ...horario,
           services: servicesUpdated,
-          cost: parseFloat(project.cost) - parseFloat(cost),
+          cost: parseFloat(horario.cost) - parseFloat(cost),
         }
 
-        setProject(projectUpdated)
+        setHorario(horarioUpdated)
         setServices(servicesUpdated)
         setMessage('Serviço removido com sucesso!')
 
         // Atualiza o custo total do projeto
-        return fetch(`http://localhost:3000/projects/${projectUpdated.id}`, {
+        return fetch(`http://localhost:3000/horarios/${horarioUpdated.id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ cost: projectUpdated.cost }),
+          body: JSON.stringify({ cost: horarioUpdated.cost }),
         })
       })
   }
 
-  function toggleProjectForm() {
-    setShowProjectForm(!showProjectForm)
+  function toggleHorarioForm() {
+    setShowHorarioForm(!showHorarioForm)
   }
 
   function toggleServiceForm() {
@@ -144,33 +144,33 @@ function Project() {
 
   return (
     <>
-      {project.name ? (
-        <div className={styles.project_details}>
+      {horario.name ? (
+        <div className={styles.horario_details}>
           <Container customClass="column">
             {message && <Message type={type} msg={message} />}
             <div className={styles.details_container}>
-              <h1>Projeto: {project.name}</h1>
-              <button className={styles.btn} onClick={toggleProjectForm}>
-                {!showProjectForm ? 'Editar projeto' : 'Fechar'}
+              <h1>Projeto: {horario.name}</h1>
+              <button className={styles.btn} onClick={toggleHorarioForm}>
+                {!showHorarioForm ? 'Editar projeto' : 'Fechar'}
               </button>
-              {!showProjectForm ? (
+              {!showHorarioForm ? (
                 <div className={styles.form}>
                   <p>
-                    <span>Categoria:</span> {project.category.name}
+                    <span>Categoria:</span> {horario.category.name}
                   </p>
                   <p>
-                    <span>Total do orçamento:</span> R${project.budget}
+                    <span>Total do orçamento:</span> R${horario.budget}
                   </p>
                   <p>
-                    <span>Total utilizado:</span> R${project.cost}
+                    <span>Total utilizado:</span> R${horario.cost}
                   </p>
                 </div>
               ) : (
                 <div className={styles.form}>
-                  <ProjectForm
+                  <HorarioForm
                     handleSubmit={editPost}
                     btnText="Concluir Edição"
-                    projectData={project}
+                    horarioData={horario}
                   />
                 </div>
               )}
@@ -185,7 +185,7 @@ function Project() {
                   <ServiceForm
                     handleSubmit={createService}
                     btnText="Adicionar Serviço"
-                    projectData={project}
+                    horarioData={horario}
                   />
                 )}
               </div>
@@ -214,4 +214,4 @@ function Project() {
   )
 }
 
-export default Project
+export default Horario

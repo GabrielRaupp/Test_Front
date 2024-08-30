@@ -10,7 +10,7 @@ function Home() {
         Bem-vindo ao <span>IntelAgend</span>
       </h1>
       <p>Monte seu horario aqui no botão abaixo!</p>
-      <LinkButton to="/newproject" text="Criar Horario/Lembrete" />
+      <LinkButton to="/newhorario" text="Criar Horario/Lembrete" />
       <img src={savings} alt="Savings" />
     </section>
   )

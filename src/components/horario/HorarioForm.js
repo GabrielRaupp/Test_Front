@@ -3,10 +3,10 @@ import Input from '../form/Input'
 import Select from '../form/Select'
 import SubmitButton from '../form/SubmitButton'
 
-import styles from './ProjectForm.module.css'
+import styles from './HorarioForm.module.css'
 
-function ProjectForm({ handleSubmit, btnText, projectData }) {
-  const [project, setProject] = useState(projectData || {})
+function HorarioForm({ handleSubmit, btnText, horarioData }) {
+  const [horario, setHorario] = useState(horarioData || {})
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
@@ -24,16 +24,16 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
 
   const submit = (e) => {
     e.preventDefault()
-    handleSubmit(project)
+    handleSubmit(horario)
   }
 
   function handleChange(e) {
-    setProject({ ...project, [e.target.name]: e.target.value })
+    setHorario({ ...horario, [e.target.name]: e.target.value })
   }
 
   function handleCategory(e) {
-    setProject({
-      ...project,
+    setHorario({
+      ...horario,
       category: {
         id: e.target.value,
         name: e.target.options[e.target.selectedIndex].text,
@@ -49,7 +49,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
         name="name"
         placeholder="Insira aqui"
         handleOnChange={handleChange}
-        value={project.name}
+        value={horario.name}
       />
       <Input
         type="text"
@@ -57,18 +57,18 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
         name="budget"
         placeholder="Insira o Horario"
         handleOnChange={handleChange}
-        value={project.budget}
+        value={horario.budget}
       />
       <Select
         name="category_id"
         text="Selecione a categoria"
         options={categories}
         handleOnChange={handleCategory}
-        value={project.category ? project.category.id : ''}
+        value={horario.category ? horario.category.id : ''}
       />
       <SubmitButton text={btnText} />
     </form>
   )
 }
 
-export default ProjectForm
+export default HorarioForm

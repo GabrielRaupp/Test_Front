@@ -8,7 +8,7 @@ function Contact() {
     <section className={styles.Contact}>
         
       <h1 className={styles.h1} >
-        Bem-vindo as Minhas Redes de contato
+          Meu cartão do desenvolvedor
       </h1>
       <ul className={styles.social_list}>
         <li>

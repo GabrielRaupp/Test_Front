@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom'
-import styles from './ProjectCard.module.css'
+import styles from './HorarioCard.module.css'
 
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs'
 
-function ProjectCard({ id, name, budget, category, handleRemove }) {
+function HorarioCard({ id, name, budget, category, handleRemove }) {
   const remove = (e) => {
     e.preventDefault()
     handleRemove(id)
   }
 
   return (
-    <div className={styles.project_card}>
+    <div className={styles.horario_card}>
       <h4>{name}</h4>
       <p>
         <span>Orçamento:</span> R${budget}
@@ -18,8 +18,8 @@ function ProjectCard({ id, name, budget, category, handleRemove }) {
       <p className={styles.category_text}>
         <span className={`${styles[category.toLowerCase()]}`}></span> {category}
       </p>
-      <div className={styles.project_card_actions}>
-        <Link to={'/project/' + id}>
+      <div className={styles.horario_card_actions}>
+        <Link to={'/horario/' + id}>
           <BsPencil /> Editar
         </Link>
         <button onClick={remove}>
@@ -31,4 +31,4 @@ function ProjectCard({ id, name, budget, category, handleRemove }) {
   )
 }
 
-export default ProjectCard
+export default HorarioCard

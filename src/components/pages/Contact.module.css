@@ -4,13 +4,13 @@
   list-style-type: none;
   color: white;
   width: 100%;
+  background-color: rgb(99, 94, 94);
+
 }
 
 .social_list li {
-  margin: 0 1em;
+  margin: 0.7em;
   background-color: rgb(99, 94, 94);
-  border: 3px solid black;
-  border-radius: 6px 9px;
   font-size: 2.0rem;
   text-align: center; 
   display: flex;
@@ -18,7 +18,19 @@
 
 .h1 {
   font-size: 2.5rem;
-  padding: 4.5em;
+  padding-top: 4.5em;
+  padding-bottom: 3.5em;
+  
   color: black;
   text-align: center;
+}
+.Contact{
+
+  background-color: rgb(99, 94, 94);
+  margin: 4.2em;
+  margin-left: 18.5em ;
+  margin-right: 8.5em;
+  border: 3px solid black;
+  border-radius: 6px 9px;
+
 }

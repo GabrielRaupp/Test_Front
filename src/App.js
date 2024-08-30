@@ -3,11 +3,11 @@ import Footer from './components/layout/Footer'
 import Navbar from './components/layout/Navbar'
 import Container from './components/layout/Container'
 import Home from './components/pages/Home'
-import Projects from './components/pages/Projects'
-import NewProject from './components/pages/NewProject'
+import Horarios from './components/pages/Horarios'
+import NewHorario from './components/pages/NewHorario'
 import Company from './components/pages/Company'
 import Contact from './components/pages/Contact'
-import Project from './components/pages/Project'
+import Horario from './components/pages/Horario'
 import SingUp from './components/pages/SingUp'
 
 
@@ -18,11 +18,11 @@ function App() {
       <Container customClass="min-height">
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/projects" component={Projects} />
+          <Route path="/horarios" component={Horarios} />
           <Route path="/company" component={Company} />
           <Route path="/contact" component={Contact} />
-          <Route path="/newproject" component={NewProject} />
-          <Route path="/project/:id" component={Project} />
+          <Route path="/newhorario" component={NewHorario} />
+          <Route path="/horario/:id" component={Horario} />
           <Route path="/singup" component={SingUp} />
 
         </Switch>

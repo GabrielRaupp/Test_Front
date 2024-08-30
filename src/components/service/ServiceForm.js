@@ -2,15 +2,15 @@ import { useState } from 'react'
 import Input from '../form/Input'
 import SubmitButton from '../form/SubmitButton'
 
-import styles from '../project/ProjectForm.module.css'
+import styles from '../horario/HorarioCard.module.css'
 
-function ServiceForm({ handleSubmit, btnText, projectData }) {
+function ServiceForm({ handleSubmit, btnText, horarioData }) {
   const [service, setService] = useState({})
 
   const submit = (e) => {
     e.preventDefault()
-    projectData.services.push(service)
-    handleSubmit(projectData)
+    horarioData.services.push(service)
+    handleSubmit(horarioData)
   }
 
   function handleChange(e) {
