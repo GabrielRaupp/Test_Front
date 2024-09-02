@@ -1,0 +1,86 @@
+[debug] [2024-09-02T19:39:08.821Z] ----------------------------------------------------------------------
+[debug] [2024-09-02T19:39:08.823Z] Command:       /home/redes/.nvm/versions/node/v20.11.1/bin/node /home/redes/.nvm/versions/node/v20.11.1/bin/firebase login
+[debug] [2024-09-02T19:39:08.824Z] CLI Version:   13.16.0
+[debug] [2024-09-02T19:39:08.824Z] Platform:      linux
+[debug] [2024-09-02T19:39:08.824Z] Node Version:  v20.11.1
+[debug] [2024-09-02T19:39:08.824Z] Time:          Mon Sep 02 2024 16:39:08 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2024-09-02T19:39:08.824Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-09-02T19:39:08.826Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] i  Firebase optionally collects CLI and Emulator Suite usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+ 
+[debug] [2024-09-02T19:39:09.224Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-09-02T19:39:09.225Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[warn] ⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection. 
+[debug] [2024-09-02T19:39:09.227Z] Failed to fetch MOTD Error: EACCES: permission denied, mkdir '/home/redes/.config/configstore'
+You don't have access to this file.
+
+[debug] [2024-09-02T19:39:16.311Z] Error: EACCES: permission denied, mkdir '/home/redes/.config/configstore'
+You don't have access to this file.
+
+    at Object.mkdirSync (node:fs:1380:26)
+    at module.exports.sync (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/make-dir/index.js:114:6)
+    at set all [as all] (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:59:12)
+    at Configstore.set (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:91:12)
+    at Command.actionFn (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/lib/commands/login.js:36:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-09-02T19:39:16.571Z] Error: EACCES: permission denied, mkdir '/home/redes/.config/configstore'
+You don't have access to this file.
+
+    at Object.mkdirSync (node:fs:1380:26)
+    at module.exports.sync (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/make-dir/index.js:114:6)
+    at set all [as all] (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:59:12)
+    at Configstore.set (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:91:12)
+    at process.<anonymous> (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/lib/bin/firebase.js:100:35)
+    at process.emit (node:events:530:35)
+    at process.emit (node:domain:488:12)
+    at process.exit (node:internal/process/per_thread:192:15)
+    at Timeout._onTimeout (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/lib/errorOut.js:20:17)
+    at listOnTimeout (node:internal/timers:573:17)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-09-02T19:39:20.476Z] ----------------------------------------------------------------------
+[debug] [2024-09-02T19:39:20.478Z] Command:       /home/redes/.nvm/versions/node/v20.11.1/bin/node /home/redes/.nvm/versions/node/v20.11.1/bin/firebase login
+[debug] [2024-09-02T19:39:20.479Z] CLI Version:   13.16.0
+[debug] [2024-09-02T19:39:20.479Z] Platform:      linux
+[debug] [2024-09-02T19:39:20.479Z] Node Version:  v20.11.1
+[debug] [2024-09-02T19:39:20.479Z] Time:          Mon Sep 02 2024 16:39:20 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2024-09-02T19:39:20.479Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-09-02T19:39:20.481Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] i  Firebase optionally collects CLI and Emulator Suite usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+ 
+[debug] [2024-09-02T19:39:20.874Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-09-02T19:39:20.875Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[warn] ⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection. 
+[debug] [2024-09-02T19:39:20.877Z] Failed to fetch MOTD Error: EACCES: permission denied, mkdir '/home/redes/.config/configstore'
+You don't have access to this file.
+
+[debug] [2024-09-02T19:39:24.468Z] Error: EACCES: permission denied, mkdir '/home/redes/.config/configstore'
+You don't have access to this file.
+
+    at Object.mkdirSync (node:fs:1380:26)
+    at module.exports.sync (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/make-dir/index.js:114:6)
+    at set all [as all] (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:59:12)
+    at Configstore.set (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:91:12)
+    at Command.actionFn (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/lib/commands/login.js:36:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-09-02T19:39:24.739Z] Error: EACCES: permission denied, mkdir '/home/redes/.config/configstore'
+You don't have access to this file.
+
+    at Object.mkdirSync (node:fs:1380:26)
+    at module.exports.sync (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/make-dir/index.js:114:6)
+    at set all [as all] (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:59:12)
+    at Configstore.set (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/node_modules/configstore/index.js:91:12)
+    at process.<anonymous> (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/lib/bin/firebase.js:100:35)
+    at process.emit (node:events:530:35)
+    at process.emit (node:domain:488:12)
+    at process.exit (node:internal/process/per_thread:192:15)
+    at Timeout._onTimeout (/home/redes/.nvm/versions/node/v20.11.1/lib/node_modules/firebase-tools/lib/errorOut.js:20:17)
+    at listOnTimeout (node:internal/timers:573:17)
+[error] 
+[error] Error: An unexpected error has occurred.

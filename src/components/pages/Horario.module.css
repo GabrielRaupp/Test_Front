@@ -1,20 +1,20 @@
-.project_details {
+.horario_details {
     padding: 2em;
   }
   
-  .project_details h1,
-  .project_details h2,
-  .project_details p {
+  .horario_details h1,
+  .horario_details h2,
+  .horario_details p {
     margin-bottom: 0.5em;
   }
   
-  .project_details h1 {
+  .horario_details h1 {
     background-color: #222;
     color: #ffbb33;
     padding: 0.4em;
   }
   
-  .project_details span {
+  .horario_details span {
     font-weight: bold;
   }
   

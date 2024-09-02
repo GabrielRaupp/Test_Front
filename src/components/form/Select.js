@@ -7,7 +7,9 @@ const Select = () => {
   const options = [
     { id: 1, name: 'Trabalho' },
     { id: 2, name: 'Prova' },
-    { id: 3, name: 'Orientação' }
+    { id: 3, name: 'Orientação' },
+    { id: 4, name: 'Co-Orientação' }
+
   ];
 
   return (

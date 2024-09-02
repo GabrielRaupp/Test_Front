@@ -3,12 +3,12 @@ CREATE TABLE categories (
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE projects (
+CREATE TABLE horarios (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     budget DECIMAL(10, 2) NOT NULL,
     cost DECIMAL(10, 2) NOT NULL DEFAULT 0,
-    category_id INT NOT NULL,
+    category_id INT,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
@@ -17,13 +17,6 @@ CREATE TABLE services (
     name VARCHAR(255) NOT NULL,
     cost DECIMAL(10, 2) NOT NULL,
     description TEXT,
-    project_id CHAR(36),
-    FOREIGN KEY (project_id) REFERENCES projects(id)
-);
-
-CREATE TABLE contas (
-    id CHAR(36) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    cost DECIMAL(10, 2) NOT NULL,
-    senha VARCHAR(12) NOT NULL,
+    horario_id CHAR(36),
+    FOREIGN KEY (horario_id) REFERENCES horarios(id)
 );

@@ -1,146 +1,109 @@
-import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import styles from './Horario.module.css'
-import Loading from '../layout/Loading'
-import Container from '../layout/Container'
-import HorarioForm from '../horario/HorarioForm'
-import Message from '../layout/Message'
-import ServiceForm from '../service/ServiceForm'
-import ServiceCard from '../service/ServiceCard'
+// src/components/pages/Horario.js
+import { v4 as uuidv4 } from 'uuid';
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import styles from './Horario.module.css';
+import Loading from '../layout/Loading';
+import Container from '../layout/Container';
+import HorarioForm from '../horario/HorarioForm';
+import Message from '../layout/Message';
+import ServiceForm from '../service/ServiceForm';
+import ServiceCard from '../service/ServiceCard';
+import { db } from '../../firebase'; 
 
 function Horario() {
-  let { id } = useParams()
-  const [horario, setHorario] = useState({})
-  const [showHorarioForm, setShowHorarioForm] = useState(false)
-  const [showServiceForm, setShowServiceForm] = useState(false)
-  const [services, setServices] = useState([])
-  const [message, setMessage] = useState('')
-  const [type, setType] = useState('success')
+  const { id } = useParams();
+  const [horario, setHorario] = useState({});
+  const [showHorarioForm, setShowHorarioForm] = useState(false);
+  const [showServiceForm, setShowServiceForm] = useState(false);
+  const [services, setServices] = useState([]);
+  const [message, setMessage] = useState('');
+  const [type, setType] = useState('success');
 
   useEffect(() => {
-    setTimeout(
-      () =>
-        fetch(`http://localhost:3000/horarios/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            setHorario(data)
-            setServices(data.services)
-          }),
-      0
-    )
-  }, [id])
+    const unsubscribe = db.collection('horarios').doc(id).onSnapshot((doc) => {
+      if (doc.exists) {
+        setHorario({ id: doc.id, ...doc.data() });
+        setServices(doc.data().services || []);
+      } else {
+        setMessage('Horário não encontrado!');
+        setType('error');
+      }
+    }, (error) => {
+      console.error("Erro ao buscar horário:", error);
+    });
 
-  function editPost(horario) {
-    if (horario.budget < horario.cost) {
-      setMessage('O Orçamento não pode ser menor que o custo do projeto!')
-      setType('error')
-      return false
+    return () => unsubscribe();
+  }, [id]);
+
+  const editPost = async (updatedHorario) => {
+    if (updatedHorario.budget < updatedHorario.cost) {
+      setMessage('O Orçamento não pode ser menor que o custo do projeto!');
+      setType('error');
+      return false;
     }
 
-    fetch(`http://localhost:3000/horarios/${horario.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(horario),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setHorario(data)
-        setShowHorarioForm(!showHorarioForm)
-        setMessage('Projeto atualizado!')
-        setType('success')
-      })
-  }
+    try {
+      await db.collection('horarios').doc(updatedHorario.id).update(updatedHorario);
+      setHorario(updatedHorario);
+      setShowHorarioForm(false);
+      setMessage('Projeto atualizado!');
+      setType('success');
+    } catch (error) {
+      console.error("Erro ao atualizar horário:", error);
+    }
+  };
 
-  function createService(horario) {
-    const lastService = horario.services[horario.services.length - 1]
-
-    lastService.id = uuidv4()
-    const lastServiceCost = lastService.cost
-    const newCost = parseFloat(horario.cost) + parseFloat(lastServiceCost)
+  const createService = async (newService) => {
+    const service = { ...newService, id: uuidv4(), horario_id: id };
+    const newCost = parseFloat(horario.cost) + parseFloat(service.cost);
 
     if (newCost > parseFloat(horario.budget)) {
-      setMessage('Orçamento ultrapassado, verifique o valor do serviço!')
-      setType('error')
-      horario.services.pop()
-      return false
+      setMessage('Orçamento ultrapassado, verifique o valor do serviço!');
+      setType('error');
+      return false;
     }
 
-    horario.cost = newCost
+    try {
+      const updatedServices = [...services, service];
+      await db.collection('horarios').doc(id).update({
+        services: updatedServices,
+        cost: newCost,
+      });
+      setServices(updatedServices);
+      setHorario({ ...horario, cost: newCost });
+      setShowServiceForm(false);
+      setMessage('Serviço adicionado!');
+      setType('success');
+    } catch (error) {
+      console.error("Erro ao adicionar serviço:", error);
+    }
+  };
 
-    fetch(`http://localhost:3000/services`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(lastService),
-    })
-      .then((resp) => resp.json())
-      .then((serviceData) => {
-        setServices([...services, serviceData])
-        setShowServiceForm(!showServiceForm)
-        setMessage('Serviço adicionado!')
-        setType('success')
+  const removeService = async (serviceId, cost) => {
+    try {
+      const updatedServices = services.filter((service) => service.id !== serviceId);
+      const newCost = parseFloat(horario.cost) - parseFloat(cost);
+      await db.collection('horarios').doc(id).update({
+        services: updatedServices,
+        cost: newCost,
+      });
+      setServices(updatedServices);
+      setHorario({ ...horario, cost: newCost });
+      setMessage('Serviço removido com sucesso!');
+      setType('success');
+    } catch (error) {
+      console.error("Erro ao remover serviço:", error);
+    }
+  };
 
-        // Atualiza o custo total do projeto
-        return fetch(`http://localhost:3000/horarios/${horario.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ cost: newCost }),
-        })
-      })
-      .then(() => setHorario({ ...horario, cost: newCost }))
-  }
+  const toggleHorarioForm = () => {
+    setShowHorarioForm(!showHorarioForm);
+  };
 
-  function removeService(serviceId, cost) {
-    fetch(`http://localhost:3000/services/${serviceId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        const servicesUpdated = horario.services.filter(
-          (service) => service.id !== serviceId
-        )
-
-        const horarioUpdated = {
-          ...horario,
-          services: servicesUpdated,
-          cost: parseFloat(horario.cost) - parseFloat(cost),
-        }
-
-        setHorario(horarioUpdated)
-        setServices(servicesUpdated)
-        setMessage('Serviço removido com sucesso!')
-
-        // Atualiza o custo total do projeto
-        return fetch(`http://localhost:3000/horarios/${horarioUpdated.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ cost: horarioUpdated.cost }),
-        })
-      })
-  }
-
-  function toggleHorarioForm() {
-    setShowHorarioForm(!showHorarioForm)
-  }
-
-  function toggleServiceForm() {
-    setShowServiceForm(!showServiceForm)
-  }
+  const toggleServiceForm = () => {
+    setShowServiceForm(!showServiceForm);
+  };
 
   return (
     <>
@@ -192,7 +155,7 @@ function Horario() {
             </div>
             <h2>Serviços:</h2>
             <Container customClass="start">
-              {services.length > 0 &&
+              {services.length > 0 ? (
                 services.map((service) => (
                   <ServiceCard
                     id={service.id}
@@ -202,8 +165,10 @@ function Horario() {
                     key={service.id}
                     handleRemove={removeService}
                   />
-                ))}
-              {services.length === 0 && <p>Não há serviços cadastrados.</p>}
+                ))
+              ) : (
+                <p>Não há serviços cadastrados.</p>
+              )}
             </Container>
           </Container>
         </div>
@@ -211,7 +176,7 @@ function Horario() {
         <Loading />
       )}
     </>
-  )
+  );
 }
 
-export default Horario
+export default Horario;
