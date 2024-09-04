@@ -21,11 +21,16 @@
   display: inline-block;
   justify-content: center;
   text-align: center;
+
 }
+
+
 
 .conta a {
   text-decoration: none; 
   color: inherit; 
+  text-decoration: none;
+
 }
 
 .conta a:hover {
@@ -33,10 +38,15 @@
   transition: font-size 0.5s ease;
   font-size: 2.4rem;
 
+
 }
 
 .div {
   justify-content: center;
   text-align: center;
-  padding-left: 8.5em;
+  padding-left: 12.5em;
+  text-decoration: none;
+  list-style-type: none;
+
+
 }
