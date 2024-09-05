@@ -29,7 +29,6 @@ function Horarios() {
       setLoading(false);
     });
 
-    // Cleanup
     return () => unsubscribe();
   }, []);
 
