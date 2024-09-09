@@ -8,7 +8,7 @@ import HorarioForm from '../horario/HorarioForm';
 import Message from '../layout/Message';
 import ServiceForm from '../service/ServiceForm';
 import ServiceCard from '../service/ServiceCard';
-import { db } from '../../firebase'; 
+import { db } from '../../firebase';
 
 function Horario() {
   const { id } = useParams();

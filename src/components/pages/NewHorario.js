@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import HorarioForm from '../horario/HorarioForm';
 import styles from './NewHorario.module.css';
+import { db as firebaseDb } from '../../firebase'; 
 
 function NewHorario() {
   const navigate = useNavigate();
