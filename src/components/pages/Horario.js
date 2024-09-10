@@ -8,7 +8,6 @@ import HorarioForm from '../horario/HorarioForm';
 import Message from '../layout/Message';
 import ServiceForm from '../service/ServiceForm';
 import ServiceCard from '../service/ServiceCard';
-import { db } from '../../firebase';
 
 function Horario() {
   const { id } = useParams();
@@ -20,30 +19,38 @@ function Horario() {
   const [type, setType] = useState('success');
 
   useEffect(() => {
-    const unsubscribe = db.collection('horarios').doc(id).onSnapshot((doc) => {
-      if (doc.exists) {
-        setHorario({ id: doc.id, ...doc.data() });
-        setServices(doc.data().services || []);
-      } else {
-        setMessage('Horário não encontrado!');
-        setType('error');
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/horarios/${id}`);
+        const data = await response.json();
+        if (data) {
+          setHorario(data);
+          setServices(data.services || []);
+        } else {
+          setMessage('Horário não encontrado!');
+          setType('error');
+        }
+      } catch (error) {
+        console.error("Erro ao buscar horário:", error);
       }
-    }, (error) => {
-      console.error("Erro ao buscar horário:", error);
-    });
-
-    return () => unsubscribe();
+    };
+  
+    fetchData();
   }, [id]);
-
+  
   const editPost = async (updatedHorario) => {
     if (updatedHorario.budget < updatedHorario.cost) {
       setMessage('O Orçamento não pode ser menor que o custo do projeto!');
       setType('error');
       return false;
     }
-
+  
     try {
-      await db.collection('horarios').doc(updatedHorario.id).update(updatedHorario);
+      await fetch(`http://localhost:3000/horarios/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedHorario),
+      });
       setHorario(updatedHorario);
       setShowHorarioForm(false);
       setMessage('Projeto atualizado!');
@@ -52,22 +59,26 @@ function Horario() {
       console.error("Erro ao atualizar horário:", error);
     }
   };
-
+  
   const createService = async (newService) => {
     const service = { ...newService, id: uuidv4(), horario_id: id };
     const newCost = parseFloat(horario.cost) + parseFloat(service.cost);
-
+  
     if (newCost > parseFloat(horario.budget)) {
       setMessage('Orçamento ultrapassado, verifique o valor do serviço!');
       setType('error');
       return false;
     }
-
+  
     try {
       const updatedServices = [...services, service];
-      await db.collection('horarios').doc(id).update({
-        services: updatedServices,
-        cost: newCost,
+      await fetch(`http://localhost:3000/horarios/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          services: updatedServices,
+          cost: newCost,
+        }),
       });
       setServices(updatedServices);
       setHorario({ ...horario, cost: newCost });
@@ -78,14 +89,18 @@ function Horario() {
       console.error("Erro ao adicionar serviço:", error);
     }
   };
-
+  
   const removeService = async (serviceId, cost) => {
     try {
       const updatedServices = services.filter((service) => service.id !== serviceId);
       const newCost = parseFloat(horario.cost) - parseFloat(cost);
-      await db.collection('horarios').doc(id).update({
-        services: updatedServices,
-        cost: newCost,
+      await fetch(`http://localhost:3000/horarios/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          services: updatedServices,
+          cost: newCost,
+        }),
       });
       setServices(updatedServices);
       setHorario({ ...horario, cost: newCost });
@@ -95,7 +110,7 @@ function Horario() {
       console.error("Erro ao remover serviço:", error);
     }
   };
-
+  
   const toggleHorarioForm = () => {
     setShowHorarioForm(!showHorarioForm);
   };

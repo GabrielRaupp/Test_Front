@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { db  } from '../../firebase'; 
 import Container from '../layout/Container';
 import Loading from '../layout/Loading';
 import LinkButton from '../layout/LinkButton';
@@ -13,33 +12,32 @@ function Horarios() {
   const [horarioMessage, setHorarioMessage] = useState('');
 
   useEffect(() => {
-    setTimeout(() => {
-      fetch('http://localhost:3000/horarios', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          setHorarios(data);
-          setRemoveLoading(true);
-        });
-    }, 100);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/horarios');
+        const data = await response.json();
+        setHorarios(data);
+        setRemoveLoading(true);
+      } catch (error) {
+        console.error("Erro ao buscar horários:", error);
+      }
+    };
+  
+    fetchData();
   }, []);
-
-  function removeHorario(id) {
-    fetch(`http://localhost:3000/horarios/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        setHorarios(horarios.filter((horario) => horario.id !== id));
-        setHorarioMessage('Horário removido com sucesso!');
+  
+  const removeHorario = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/horarios/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
       });
-  }
+      setHorarios(horarios.filter((horario) => horario._id !== id));
+      setHorarioMessage('Horário removido com sucesso!');
+    } catch (error) {
+      console.error("Erro ao remover horário:", error);
+    }
+  };
 
   return (
     <div className={styles.horario_container}>
@@ -52,11 +50,11 @@ function Horarios() {
         {horarios.length > 0 &&
           horarios.map((horario) => (
             <HorarioCard
-              id={horario.id}
+              id={horario._id}
               name={horario.name}
               budget={horario.budget}
               category={horario.category.name}
-              key={horario.id}
+              key={horario._id}
               handleRemove={removeHorario}
             />
           ))}

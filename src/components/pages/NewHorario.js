@@ -1,27 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 import HorarioForm from '../horario/HorarioForm';
 import styles from './NewHorario.module.css';
-import { db as firebaseDb } from '../../firebase'; 
 
 function NewHorario() {
   const navigate = useNavigate();
 
-  function createPost(horario) {
+  const createPost = async (horario) => {
     horario.cost = 0;
     horario.services = [];
-
-    fetch('http://localhost:3000/horarios', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(horario),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
+  
+    try {
+      const response = await fetch('http://localhost:3000/horarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(horario),
       });
-  }
+      const data = await response.json();
+      navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
+    } catch (error) {
+      console.error("Erro ao criar horário:", error);
+    }
+  };
 
   return (
     <div className={styles.newhorario_container}>
