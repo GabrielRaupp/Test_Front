@@ -1,6 +1,7 @@
 {
-    "name": "1_instalacao",
+    "name": "tcc",
     "version": "1.0.0",
+    "main": "server.js",
     "type": "module",
     "private": true,
     "dependencies": {
@@ -8,11 +9,11 @@
         "@testing-library/react": "^11.1.0",
         "@testing-library/user-event": "^12.1.10",
         "cors": "^2.8.5",
-        "express": "^4.19.2",
+        "express": "^4.17.3",
         "firebase": "^10.13.1",
         "json-server": "^0.16.3",
         "mongodb": "^6.8.1",
-        "mongoose": "^8.6.1",
+        "mongoose": "^5.11.15",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-icons": "^4.12.0",

@@ -4,18 +4,15 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Resolve o caminho do diretório atual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Conectar ao MongoDB
 const uri = 'mongodb+srv://Gabriel:01102005Br@cluster0.mongodb.net/TCC?retryWrites=true&w=majority';
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -24,8 +21,7 @@ mongoose.connect(uri, {
   .then(() => console.log('Conectado ao MongoDB Atlas com sucesso!'))
   .catch((error) => console.error('Erro ao conectar ao MongoDB Atlas:', error));
 
-// Serve os arquivos estáticos do frontend
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Rotas API
 const HorarioSchema = new mongoose.Schema({
@@ -33,16 +29,16 @@ const HorarioSchema = new mongoose.Schema({
   budget: Number,
   cost: Number,
   category: {
-    name: String
+    name: String,
   },
   services: [
     {
       id: String,
       name: String,
       cost: Number,
-      description: String
-    }
-  ]
+      description: String,
+    },
+  ],
 });
 
 const Horario = mongoose.model('Horario', HorarioSchema);
@@ -96,9 +92,9 @@ app.delete('/horarios/:id', async (req, res) => {
   }
 });
 
-// Rota para arquivos estáticos (React)
+// Fallback para o index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
