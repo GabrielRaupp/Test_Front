@@ -10,12 +10,11 @@ function NewHorario() {
     horario.services = [];
   
     try {
-      const response = await fetch('http://localhost:3000/horarios', {
+      await fetch('http://localhost:3000/horarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(horario),
       });
-      const data = await response.json();
       navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
     } catch (error) {
       console.error("Erro ao criar horário:", error);

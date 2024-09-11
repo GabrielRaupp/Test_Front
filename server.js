@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,15 +10,19 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// String de conexão com MongoDB Atlas
-const mongoURI = 'mongodb+srv://Gabriel:01102005Br@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
-
 // Conectar ao MongoDB
-mongoose.connect(mongoURI)
-  .then(() => console.log('Conectado ao MongoDB Atlas'))
-  .catch(err => console.error('Erro ao conectar ao MongoDB Atlas', err));
+const uri = 'mongodb+srv://Gabriel:01102005Br@cluster0.mongodb.net/TCC?retryWrites=true&w=majority';
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Conectado ao MongoDB Atlas com sucesso!'))
+  .catch((error) => console.error('Erro ao conectar ao MongoDB Atlas:', error));
 
-// Modelos
+// Serve os arquivos estáticos do frontend
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Rotas API
 const HorarioSchema = new mongoose.Schema({
   name: String,
   budget: Number,
@@ -37,7 +42,6 @@ const HorarioSchema = new mongoose.Schema({
 
 const Horario = mongoose.model('Horario', HorarioSchema);
 
-// Rotas
 app.get('/horarios', async (req, res) => {
   try {
     const horarios = await Horario.find();
@@ -85,6 +89,11 @@ app.delete('/horarios/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+});
+
+// Rota para arquivos estáticos (React)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

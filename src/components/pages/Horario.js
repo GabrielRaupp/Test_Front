@@ -1,3 +1,4 @@
+// Horario.js
 import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -34,17 +35,17 @@ function Horario() {
         console.error("Erro ao buscar horário:", error);
       }
     };
-  
+
     fetchData();
   }, [id]);
-  
+
   const editPost = async (updatedHorario) => {
     if (updatedHorario.budget < updatedHorario.cost) {
       setMessage('O Orçamento não pode ser menor que o custo do projeto!');
       setType('error');
       return false;
     }
-  
+
     try {
       await fetch(`http://localhost:3000/horarios/${id}`, {
         method: 'PUT',
@@ -59,17 +60,17 @@ function Horario() {
       console.error("Erro ao atualizar horário:", error);
     }
   };
-  
+
   const createService = async (newService) => {
     const service = { ...newService, id: uuidv4(), horario_id: id };
     const newCost = parseFloat(horario.cost) + parseFloat(service.cost);
-  
+
     if (newCost > parseFloat(horario.budget)) {
       setMessage('Orçamento ultrapassado, verifique o valor do serviço!');
       setType('error');
       return false;
     }
-  
+
     try {
       const updatedServices = [...services, service];
       await fetch(`http://localhost:3000/horarios/${id}`, {
@@ -89,7 +90,7 @@ function Horario() {
       console.error("Erro ao adicionar serviço:", error);
     }
   };
-  
+
   const removeService = async (serviceId, cost) => {
     try {
       const updatedServices = services.filter((service) => service.id !== serviceId);
@@ -110,7 +111,7 @@ function Horario() {
       console.error("Erro ao remover serviço:", error);
     }
   };
-  
+
   const toggleHorarioForm = () => {
     setShowHorarioForm(!showHorarioForm);
   };
