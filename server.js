@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,17 +14,32 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-const uri = 'mongodb+srv://Gabriel:01102005Br@cluster0.mongodb.net/TCC?retryWrites=true&w=majority';
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Conectado ao MongoDB Atlas com sucesso!'))
-  .catch((error) => console.error('Erro ao conectar ao MongoDB Atlas:', error));
+
+const uri = "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rotas API
 const HorarioSchema = new mongoose.Schema({
   name: String,
   budget: Number,
@@ -92,7 +108,6 @@ app.delete('/horarios/:id', async (req, res) => {
   }
 });
 
-// Fallback para o index.html
 app.get('*', (req, res) => {
   app.use(express.static(path.join(__dirname, 'public')));
 });
