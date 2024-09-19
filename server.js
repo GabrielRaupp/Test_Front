@@ -28,11 +28,8 @@ async function run() {
   try {
     await client.connect(); 
     console.log("Conectado ao MongoDB Atlas com sucesso!");
-
     await client.db("admin").command({ ping: 1 });
     console.log("Ping bem-sucedido ao MongoDB!");
-    
-
   } catch (error) {
     console.error("Erro ao conectar ao MongoDB:", error);
   }
@@ -59,6 +56,7 @@ const HorarioSchema = new mongoose.Schema({
 
 const Horario = mongoose.model('Horario', HorarioSchema);
 
+// Rotas para Horarios
 app.get('/horarios', async (req, res) => {
   try {
     const horarios = await Horario.find();
@@ -68,46 +66,13 @@ app.get('/horarios', async (req, res) => {
   }
 });
 
-app.post('/horarios', async (req, res) => {
-  const horario = new Horario(req.body);
-  try {
-    const newHorario = await horario.save();
-    res.status(201).json(newHorario);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+// Adicione outras rotas para Horarios (POST, GET by ID, PUT, DELETE) aqui...
 
-app.get('/horarios/:id', async (req, res) => {
-  try {
-    const horario = await Horario.findById(req.params.id);
-    if (!horario) return res.status(404).json({ message: 'Horário não encontrado' });
-    res.json(horario);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// Rota para servir a aplicação React
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.put('/horarios/:id', async (req, res) => {
-  try {
-    const horario = await Horario.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!horario) return res.status(404).json({ message: 'Horário não encontrado' });
-    res.json(horario);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', '/pages/home.js'));
 });
-
-app.delete('/horarios/:id', async (req, res) => {
-  try {
-    const horario = await Horario.findByIdAndDelete(req.params.id);
-    if (!horario) return res.status(404).json({ message: 'Horário não encontrado' });
-    res.json({ message: 'Horário removido com sucesso!' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
