@@ -1,4 +1,3 @@
-// Horario.js
 import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -168,7 +167,7 @@ function Horario() {
                 )}
               </div>
             </div>
-            <h2>Serviços:</h2>
+            <h2>Serviços</h2>
             <Container customClass="start">
               {services.length > 0 ? (
                 services.map((service) => (

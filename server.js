@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'; 
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -14,8 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-
-const uri = "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/myDatabase?retryWrites=true&w=majority";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -27,18 +26,19 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    await client.connect(); 
+    console.log("Conectado ao MongoDB Atlas com sucesso!");
+
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    await client.close();
+    console.log("Ping bem-sucedido ao MongoDB!");
+    
+
+  } catch (error) {
+    console.error("Erro ao conectar ao MongoDB:", error);
   }
 }
+
 run().catch(console.dir);
-
-
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 const HorarioSchema = new mongoose.Schema({
   name: String,
@@ -108,8 +108,6 @@ app.delete('/horarios/:id', async (req, res) => {
   }
 });
 
-app.get('*', (req, res) => {
-  app.use(express.static(path.join(__dirname, 'public')));
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
