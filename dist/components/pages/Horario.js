@@ -15,8 +15,6 @@ var _Message = _interopRequireDefault(require("../layout/Message"));
 var _ServiceForm = _interopRequireDefault(require("../service/ServiceForm"));
 var _ServiceCard = _interopRequireDefault(require("../service/ServiceCard"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-// Horario.js
-
 function Horario() {
   const {
     id
@@ -165,7 +163,7 @@ function Horario() {
     handleSubmit: createService,
     btnText: "Adicionar Servi\xE7o",
     horarioData: horario
-  }))), /*#__PURE__*/React.createElement("h2", null, "Servi\xE7os:"), /*#__PURE__*/React.createElement(_Container.default, {
+  }))), /*#__PURE__*/React.createElement("h2", null, "Servi\xE7os"), /*#__PURE__*/React.createElement(_Container.default, {
     customClass: "start"
   }, services.length > 0 ? services.map(service => /*#__PURE__*/React.createElement(_ServiceCard.default, {
     id: service.id,

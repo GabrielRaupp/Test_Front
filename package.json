@@ -25,7 +25,7 @@
         "yarn": "^1.22.22"
     },
     "scripts": {
-        "build": "babel src -d dist",
+        "build": "react-scripts build",
         "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
