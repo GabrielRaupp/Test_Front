@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Container from '../layout/Container';
 import Loading from '../layout/Loading';
@@ -23,10 +22,10 @@ function Horarios() {
         console.error("Erro ao buscar horários:", error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   const removeHorario = async (id) => {
     try {
       await fetch(`http://localhost:3000/horarios/${id}`, {
