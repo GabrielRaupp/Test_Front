@@ -8,14 +8,14 @@ function NewHorario() {
   const createPost = async (horario) => {
     horario.cost = 0;
     horario.services = [];
-  
+
     try {
       await fetch('http://localhost:3000/horarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(horario),
       });
-      navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
+      navigate('/horarios');
     } catch (error) {
       console.error("Erro ao criar horário:", error);
     }
@@ -24,7 +24,6 @@ function NewHorario() {
   return (
     <div className={styles.newhorario_container}>
       <h1>Criar Horário</h1>
-      <p>Crie seu horário para depois adicionar os serviços</p>
       <HorarioForm handleSubmit={createPost} btnText="Criar Horário" />
     </div>
   );

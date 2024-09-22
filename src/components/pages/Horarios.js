@@ -47,7 +47,7 @@ function Horarios() {
       </div>
       {horarioMessage && <Message type="success" msg={horarioMessage} />}
       <Container customClass="start">
-        {horarios.length > 0 &&
+        {horarios.length > 0 ? (
           horarios.map((horario) => (
             <HorarioCard
               id={horario._id}
@@ -57,11 +57,11 @@ function Horarios() {
               key={horario._id}
               handleRemove={removeHorario}
             />
-          ))}
-        {!removeLoading && <Loading />}
-        {removeLoading && horarios.length === 0 && (
+          ))
+        ) : (
           <p>Não há horários cadastrados!</p>
         )}
+        {!removeLoading && <Loading />}
       </Container>
     </div>
   );

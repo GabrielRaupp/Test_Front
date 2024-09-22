@@ -16,12 +16,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/myDatabase?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URI;
 
 mongoose.connect(uri, { 
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-  writeConcern: { w: "majority", j: true } 
 })
   .then(() => console.log('Conectado ao MongoDB Atlas com sucesso!'))
   .catch((error) => console.error('Erro ao conectar ao MongoDB:', error));
@@ -108,6 +107,7 @@ app.delete('/horarios/:id', async (req, res) => {
   }
 });
 
+// Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
