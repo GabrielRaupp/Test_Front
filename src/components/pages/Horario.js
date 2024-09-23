@@ -51,60 +51,13 @@ function Horario() {
       });
       setHorario(updatedHorario);
       setShowHorarioForm(false);
-      setMessage('Projeto atualizado!');
+      setMessage('Horário atualizado com sucesso!');
       setType('success');
     } catch (error) {
       console.error("Erro ao atualizar horário:", error);
-    }
-  };
-
-  const createHorario = async (newHorario) => {
-    const horarioWithId = { ...newHorario, id: uuidv4() };
-    const newCost = parseFloat(horario.cost) + parseFloat(newHorario.cost || 0);
-
-    if (newCost > parseFloat(horario.budget)) {
-      setMessage('Orçamento ultrapassado, verifique o valor do serviço!');
+      setMessage('Erro ao atualizar o horário!');
       setType('error');
-      return;
     }
-
-    try {
-      const updatedHorarios = [...horarios, horarioWithId];
-      await fetch(`http://localhost:3000/horarios/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ services: updatedHorarios, cost: newCost }),
-      });
-      setHorarios(updatedHorarios);
-      setHorario({ ...horario, cost: newCost });
-      setShowHorarioForm(false);
-      setMessage('Serviço adicionado!');
-      setType('success');
-    } catch (error) {
-      console.error("Erro ao adicionar serviço:", error);
-    }
-  };
-
-  const removeHorario = async (horarioId, cost) => {
-    try {
-      const updatedHorarios = horarios.filter((horario) => horario.id !== horarioId);
-      const newCost = parseFloat(horario.cost) - parseFloat(cost);
-      await fetch(`http://localhost:3000/horarios/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ services: updatedHorarios, cost: newCost }),
-      });
-      setHorarios(updatedHorarios);
-      setHorario({ ...horario, cost: newCost });
-      setMessage('Serviço removido com sucesso!');
-      setType('success');
-    } catch (error) {
-      console.error("Erro ao remover serviço:", error);
-    }
-  };
-
-  const toggleHorarioForm = () => {
-    setShowHorarioForm(!showHorarioForm);
   };
 
   return (
@@ -112,16 +65,15 @@ function Horario() {
       {horario.name ? (
         <div className={styles.horario_details}>
           <Container customClass="column">
-            {message && <Message type={type} msg={message} />}
             <div className={styles.details_container}>
-              <h1>Projeto: {horario.name}</h1>
-              <button className={styles.btn} onClick={toggleHorarioForm}>
-                {!showHorarioForm ? 'Editar projeto' : 'Fechar'}
+              <h1>Horário: {horario.name}</h1>
+              <button onClick={() => setShowHorarioForm(!showHorarioForm)}>
+                {showHorarioForm ? 'Fechar' : 'Editar horário'}
               </button>
               {!showHorarioForm ? (
-                <div className={styles.form}>
+                <div className={styles.horario_info}>
                   <p>
-                    <span>Categoria:</span> {horario.category.name}
+                    <span>Categoria:</span> {horario.category?.name || 'Sem categoria'}
                   </p>
                   <p>
                     <span>Total do orçamento:</span> R${horario.budget}
@@ -131,47 +83,15 @@ function Horario() {
                   </p>
                 </div>
               ) : (
-                <div className={styles.form}>
+                <div className={styles.horario_info}>
                   <HorarioForm
                     handleSubmit={editPost}
-                    btnText="Concluir Edição"
+                    btnText="Concluir edição"
                     horarioData={horario}
                   />
                 </div>
               )}
             </div>
-            <div className={styles.horario_form_container}>
-              <h2>Adicione um serviço:</h2>
-              <button className={styles.btn} onClick={toggleHorarioForm}>
-                {!showHorarioForm ? 'Adicionar Serviço' : 'Fechar'}
-              </button>
-              <div className={styles.form}>
-                {showHorarioForm && (
-                  <HorarioForm
-                    handleSubmit={createHorario}
-                    btnText="Adicionar Serviço"
-                    horarioData={horario}
-                  />
-                )}
-              </div>
-            </div>
-            <h2>Serviços</h2>
-            <Container customClass="start">
-              {horarios.length > 0 ? (
-                horarios.map((horario) => (
-                  <HorarioCard
-                    id={horario.id}
-                    name={horario.name}
-                    cost={horario.cost}
-                    description={horario.description}
-                    key={horario.id}
-                    handleRemove={removeHorario}
-                  />
-                ))
-              ) : (
-                <p>Não há serviços cadastrados.</p>
-              )}
-            </Container>
           </Container>
         </div>
       ) : (
