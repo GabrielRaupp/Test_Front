@@ -16,12 +16,12 @@ function Horarios() {
       try {
         const response = await fetch('http://localhost:3000/horarios');
         const data = await response.json();
-        console.log('Horarios recebidos:', data); // Verifique os dados no console
+        console.log('Horarios recebidos:', data);
         setHorarios(data);
         setRemoveLoading(true);
       } catch (error) {
         console.error("Erro ao buscar horários:", error);
-        setRemoveLoading(true); // Define o estado de carregamento como concluído mesmo com erro
+        setRemoveLoading(true);
       }
     };
 
@@ -55,7 +55,7 @@ function Horarios() {
               id={horario._id}
               name={horario.name}
               budget={horario.budget}
-              category={horario.category?.name || 'Sem categoria'} // Verificação extra para categoria
+              category={horario.category?.name || 'Sem categoria'}
               key={horario._id || horario.id}
               handleRemove={removeHorario}
             />

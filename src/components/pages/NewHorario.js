@@ -6,7 +6,6 @@ function NewHorario() {
   const navigate = useNavigate();
 
   const createPost = async (horario) => {
-    horario.cost = 0;
     horario.services = [];
 
     try {
@@ -15,7 +14,7 @@ function NewHorario() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(horario),
       });
-      navigate('/horarios');
+      navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
     } catch (error) {
       console.error("Erro ao criar horário:", error);
     }
@@ -24,6 +23,7 @@ function NewHorario() {
   return (
     <div className={styles.newhorario_container}>
       <h1>Criar Horário</h1>
+      <p>Crie seu horário para depois adicionar os serviços</p>
       <HorarioForm handleSubmit={createPost} btnText="Criar Horário" />
     </div>
   );

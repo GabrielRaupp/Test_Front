@@ -16,16 +16,18 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
+// Use a variável de ambiente para a URI do MongoDB
 const uri = process.env.MONGODB_URI || "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/myDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(uri, { 
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-  writeConcern: { w: "majority", j: true } 
+  writeConcern: { w: "majority", j: true } // Adiciona writeConcern conforme recomendado
 })
   .then(() => console.log('Conectado ao MongoDB Atlas com sucesso!'))
   .catch((error) => console.error('Erro ao conectar ao MongoDB:', error));
 
+// Definição do Schema e Model
 const HorarioSchema = new mongoose.Schema({
   name: { type: String, required: true },
   budget: { type: Number, required: true },
@@ -45,10 +47,10 @@ const HorarioSchema = new mongoose.Schema({
 
 const Horario = mongoose.model('Horario', HorarioSchema);
 
+// Endpoints de API
 app.get('/horarios', async (req, res) => {
   try {
     const horarios = await Horario.find();
-    console.log('Horarios enviados:', horarios); // Para verificar os dados enviados
     res.json(horarios);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -114,7 +116,4 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
