@@ -4,6 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 
 dotenv.config();
 
@@ -46,6 +47,16 @@ const HorarioSchema = new mongoose.Schema({
 });
 
 const Horario = mongoose.model('Horario', HorarioSchema);
+
+// User Schema and Model
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  name: { type: String },
+  email: { type: String, required: true, unique: true }
+});
+
+const User = mongoose.model('User', userSchema);
 
 // Endpoints de API
 app.get('/horarios', async (req, res) => {
@@ -111,9 +122,40 @@ app.delete('/horarios/:id', async (req, res) => {
   }
 });
 
+// User Registration and Login Endpoints
+app.post('/register', async (req, res) => {
+  try {
+    const { username, password, name, email } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, password: hashedPassword, name, email });
+    await user.save();
+    res.json({ message: 'User created successfully!' });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+    res.json({ message: 'Logged in successfully!' });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

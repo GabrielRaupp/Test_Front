@@ -9,6 +9,10 @@ import Company from './components/pages/Company';
 import Contact from './components/pages/Contact';
 import Horario from './components/pages/Horario';
 import SingUp from './components/pages/SingUp';
+import Login from './components/pages/Login';
+import Cadastro from './components/pages/Cadastro';
+
+
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
           <Route path="/newhorario" element={<NewHorario />} />
           <Route path="/horario/:id" element={<Horario />} />
           <Route path="/singup" element={<SingUp />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Cadastro" element={<Cadastro />} />
+
+
         </Routes>
       </Container>
       <Footer />
@@ -31,4 +39,3 @@ function App() {
 }
 
 export default App;
-

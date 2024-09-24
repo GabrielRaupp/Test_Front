@@ -1,18 +1,15 @@
-import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './Horario.module.css';
 import Loading from '../layout/Loading';
 import Container from '../layout/Container';
 import HorarioForm from '../horario/HorarioForm';
-import Message from '../layout/Message';
-import HorarioCard from '../horario/HorarioCard';
+import Message from '../layout/Message'; // Certifique-se de que Message está sendo importado
 
 function Horario() {
   const { id } = useParams();
   const [horario, setHorario] = useState({});
   const [showHorarioForm, setShowHorarioForm] = useState(false);
-  const [horarios, setHorarios] = useState([]);
   const [message, setMessage] = useState('');
   const [type, setType] = useState('success');
 
@@ -23,13 +20,14 @@ function Horario() {
         const data = await response.json();
         if (data) {
           setHorario(data);
-          setHorarios(data.services || []);
         } else {
           setMessage('Horário não encontrado!');
           setType('error');
         }
       } catch (error) {
         console.error("Erro ao buscar horário:", error);
+        setMessage('Erro ao buscar o horário!');
+        setType('error');
       }
     };
 
@@ -62,6 +60,7 @@ function Horario() {
 
   return (
     <>
+      {message && <Message type={type} msg={message} />}
       {horario.name ? (
         <div className={styles.horario_details}>
           <Container customClass="column">
@@ -76,10 +75,7 @@ function Horario() {
                     <span>Categoria:</span> {horario.category?.name || 'Sem categoria'}
                   </p>
                   <p>
-                    <span>Total do orçamento:</span> R${horario.budget}
-                  </p>
-                  <p>
-                    <span>Total utilizado:</span> R${horario.cost}
+                    <span>Horario:</span> R${horario.budget}
                   </p>
                 </div>
               ) : (
