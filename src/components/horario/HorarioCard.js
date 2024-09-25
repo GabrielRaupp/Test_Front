@@ -9,7 +9,7 @@ function HorarioCard({ id, name, budget, category, handleRemove }) {
   };
 
   return (
-    <div className={styles.horario_card}>
+    <div className={styles.project_card}>
       <h4>{name}</h4>
       <p>
         <span>Horario:</span> {budget}
@@ -21,7 +21,7 @@ function HorarioCard({ id, name, budget, category, handleRemove }) {
       ) : (
         <p className={styles.category_text}>Categoria não definida</p>
       )}
-      <div className={styles.horario_card_actions}>
+      <div className={styles.project_card_actions}>
         <Link to={'/horario/' + id}>
           <BsPencil /> Editar
         </Link>
