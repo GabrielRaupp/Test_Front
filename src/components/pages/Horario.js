@@ -4,7 +4,7 @@ import styles from './Horario.module.css';
 import Loading from '../layout/Loading';
 import Container from '../layout/Container';
 import HorarioForm from '../horario/HorarioForm';
-import Message from '../layout/Message'; // Certifique-se de que Message está sendo importado
+import Message from '../layout/Message';
 
 function Horario() {
   const { id } = useParams();
@@ -25,7 +25,7 @@ function Horario() {
           setType('error');
         }
       } catch (error) {
-        console.error("Erro ao buscar horário:", error);
+        console.error('Erro ao buscar horário:', error);
         setMessage('Erro ao buscar o horário!');
         setType('error');
       }
@@ -52,7 +52,7 @@ function Horario() {
       setMessage('Horário atualizado com sucesso!');
       setType('success');
     } catch (error) {
-      console.error("Erro ao atualizar horário:", error);
+      console.error('Erro ao atualizar horário:', error);
       setMessage('Erro ao atualizar o horário!');
       setType('error');
     }
@@ -72,10 +72,11 @@ function Horario() {
               {!showHorarioForm ? (
                 <div className={styles.horario_info}>
                   <p>
-                    <span>Categoria:</span> {horario.category?.name || 'Sem categoria'}
+                    <span>Categoria:</span>{' '}
+                    {horario.category?.name || 'Sem categoria'}
                   </p>
                   <p>
-                    <span>Horario:</span> R${horario.budget}
+                    <span>Orçamento:</span> R${horario.budget}
                   </p>
                 </div>
               ) : (
@@ -98,3 +99,4 @@ function Horario() {
 }
 
 export default Horario;
+

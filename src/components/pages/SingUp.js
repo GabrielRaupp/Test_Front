@@ -13,7 +13,7 @@ function SingUp() {
         </li>
         <li>
           <h1 className={styles.conta}>
-            <Link to="/register">Não tenho conta</Link> 
+            <Link to="/Cadastro">Não tenho conta</Link> 
           </h1>
         </li>
       </ul>

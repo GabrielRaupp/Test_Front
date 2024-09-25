@@ -6,17 +6,22 @@ function NewHorario() {
   const navigate = useNavigate();
 
   const createPost = async (horario) => {
-    horario.services = [];
-
     try {
-      await fetch('http://localhost:3000/horarios', {
+      const response = await fetch('http://localhost:3000/horarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(horario),
       });
-      navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
+      if (response.ok) {
+        navigate('/horarios', { state: { message: 'Horário criado com sucesso!' } });
+      } else {
+        const errorData = await response.json();
+        console.error('Erro ao criar horário:', errorData.message);
+        alert('Erro ao criar horário: ' + errorData.message);
+      }
     } catch (error) {
-      console.error("Erro ao criar horário:", error);
+      console.error('Erro ao criar horário:', error);
+      alert('Erro ao criar horário: ' + error.message);
     }
   };
 

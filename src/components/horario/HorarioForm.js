@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Input from '../form/Input';
 import Select from '../form/Select';
 import SubmitButton from '../form/SubmitButton';
-import styles from './HorarioForm.module.css';
+import styles from '../horario/HorarioForm.module.css';
 
 function HorarioForm({ handleSubmit, btnText, horarioData }) {
   const [horario, setHorario] = useState(horarioData || {});

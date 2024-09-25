@@ -1,65 +1,39 @@
 .form {
-    width: 100%;
-    margin: 2em 0;
-  }.form {
-    background-color: #f5f5f5; /* Fundo cinza claro */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
-    padding: 20px; /* Espaçamento interno */
-    max-width: 500px; /* Largura máxima */
-    margin: 20px auto; /* Centraliza o formulário */
-  }
-  
-  .form p {
-    color: #ff6b6b; /* Cor para mensagens de erro */
-    font-size: 14px; /* Tamanho de fonte da mensagem */
-    margin-bottom: 15px; /* Margem inferior */
-  }
-  
-  .form input[type="text"],
-  .form select {
-    width: 100%; /* Largura total */
-    padding: 10px; /* Espaçamento interno */
-    margin-bottom: 15px; /* Margem inferior */
-    border: 1px solid #ccc; /* Borda leve */
-    border-radius: 4px; /* Bordas arredondadas */
-    font-size: 16px; /* Tamanho da fonte */
-  }
-  
-  .form input[type="text"]:focus,
-  .form select:focus {
-    border-color: #007bff; /* Borda azul quando em foco */
-    outline: none; /* Remove a borda de foco padrão */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombras ao focar */
-  }
-  
-  .form label {
-    font-weight: bold; /* Texto em negrito */
-    display: block; /* Força o label a ser um bloco */
-    margin-bottom: 5px; /* Margem inferior para separação */
-    color: #333; /* Cor do texto */
-  }
-  
-  .form button {
-    background-color: #007bff; /* Cor do botão */
-    color: white; /* Texto branco */
-    padding: 10px 20px; /* Espaçamento do botão */
-    border: none; /* Remove a borda */
-    border-radius: 4px; /* Bordas arredondadas */
-    font-size: 16px; /* Tamanho da fonte */
-    cursor: pointer; /* Muda o cursor ao passar por cima */
-    transition: background-color 0.3s ease; /* Transição suave */
-  }
-  
-  .form button:hover {
-    background-color: #0056b3; /* Cor ao passar o mouse */
-  }
-  
-  .form .error {
-    color: #ff4c4c; /* Cor para erros */
-    font-size: 14px; /* Tamanho da fonte */
-    margin-bottom: 15px; /* Margem inferior */
-    text-align: center; /* Centraliza o texto do erro */
-  }
-  
-  
+  width: 100%;
+  background-color: #f5f5f5; /* Fundo cinza claro */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
+  padding: 20px; /* Espaçamento interno */
+  max-width: 500px; /* Largura máxima */
+  margin: 20px auto; /* Centraliza o formulário */
+}
+
+.form p {
+  color: #ff6b6b; /* Cor para mensagens de erro */
+  font-size: 14px; /* Tamanho de fonte da mensagem */
+  margin-bottom: 15px; /* Margem inferior */
+}
+
+.form input[type="text"],
+.form select {
+  width: 100%; /* Largura total */
+  padding: 10px; /* Espaçamento interno */
+  margin-bottom: 15px; /* Margem inferior */
+  border: 1px solid #ccc; /* Borda leve */
+  border-radius: 4px; /* Bordas arredondadas */
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+.form input[type="text"]:focus,
+.form select:focus {
+  border-color: #007bff; /* Borda azul quando em foco */
+  outline: none; /* Remove a borda de foco padrão */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombras ao focar */
+}
+
+.form .error {
+  color: #ff4c4c; /* Cor para erros */
+  font-size: 14px; /* Tamanho da fonte */
+  margin-bottom: 15px; /* Margem inferior */
+  text-align: center; /* Centraliza o texto do erro */
+}

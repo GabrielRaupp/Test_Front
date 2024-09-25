@@ -45,10 +45,10 @@ function Horarios() {
     <div className={styles.horario_container}>
       <div className={styles.title_container}>
         <h1>Meus Horários</h1>
-        <LinkButton to="/newhorario" text="Montar horário" />
+        <LinkButton to="/newhorario" text="Montar horário" customClass={styles.addHorarioButton} />
       </div>
       {horarioMessage && <Message type="success" msg={horarioMessage} />}
-      <Container customClass="start">
+      <Container customClass={styles.container}>
         {horarios.length > 0 ? (
           horarios.map((horario) => (
             <HorarioCard

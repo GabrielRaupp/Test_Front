@@ -36,14 +36,6 @@ const HorarioSchema = new mongoose.Schema({
   category: {
     name: String,
   },
-  services: [
-    {
-      id: String,
-      name: String,
-      cost: Number,
-      description: String,
-    },
-  ],
 });
 
 const Horario = mongoose.model('Horario', HorarioSchema);
@@ -83,11 +75,16 @@ app.get('/horarios/:id', async (req, res) => {
 app.post('/horarios', async (req, res) => {
   const { name, budget, category } = req.body;
 
+  // Verifica se já existe um horário com o mesmo nome
+  const existingHorario = await Horario.findOne({ name });
+  if (existingHorario) {
+    return res.status(400).json({ message: 'Horário já cadastrado com este nome.' });
+  }
+
   const horario = new Horario({
     name,
     budget,
     category,
-    services: [],
   });
 
   try {
@@ -123,7 +120,7 @@ app.delete('/horarios/:id', async (req, res) => {
 });
 
 // User Registration and Login Endpoints
-app.post('/register', async (req, res) => {
+app.post('/cadastro', async (req, res) => {
   try {
     const { username, password, name, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);

@@ -12,14 +12,14 @@ function HorarioCard({ id, name, budget, category, handleRemove }) {
     <div className={styles.horario_card}>
       <h4>{name}</h4>
       <p>
-        <span>Orçamento:</span> R${budget}
+        <span>Horario:</span> {budget}
       </p>
       {category ? (
         <p className={styles.category_text}>
           <span className={`${styles[category.toLowerCase()]}`}></span> {category}
         </p>
       ) : (
-        <p className={styles.category_text}>Categoria não definida</p> 
+        <p className={styles.category_text}>Categoria não definida</p>
       )}
       <div className={styles.horario_card_actions}>
         <Link to={'/horario/' + id}>
