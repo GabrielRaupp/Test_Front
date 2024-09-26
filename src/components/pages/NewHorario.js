@@ -12,16 +12,14 @@ function NewHorario() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(horario),
       });
-      if (response.ok) {
-        navigate('/horarios', { state: { message: 'Horário criado com sucesso!' } });
-      } else {
-        const errorData = await response.json();
-        console.error('Erro ao criar horário:', errorData.message);
-        alert('Erro ao criar horário: ' + errorData.message);
+
+      if (!response.ok) {
+        throw new Error('Erro ao criar horário');
       }
+
+      navigate('/horarios', { state: { message: 'Projeto criado com sucesso!' } });
     } catch (error) {
-      console.error('Erro ao criar horário:', error);
-      alert('Erro ao criar horário: ' + error.message);
+      console.error("Erro ao criar horário:", error);
     }
   };
 

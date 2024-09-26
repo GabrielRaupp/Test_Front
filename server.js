@@ -17,38 +17,26 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// Use a variável de ambiente para a URI do MongoDB
 const uri = process.env.MONGODB_URI || "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/myDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(uri, { 
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-  writeConcern: { w: "majority", j: true } // Adiciona writeConcern conforme recomendado
+  writeConcern: { w: "majority", j: true } 
 })
   .then(() => console.log('Conectado ao MongoDB Atlas com sucesso!'))
   .catch((error) => console.error('Erro ao conectar ao MongoDB:', error));
 
-// Definição do Schema e Model
 const HorarioSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  budget: { type: Number, required: true },
-  cost: { type: Number, default: 0 },
+  horarios: { type: String, required: true }, 
   category: {
     name: String,
   },
-  services: [
-    {
-      id: String,
-      name: String,
-      cost: Number,
-      description: String,
-    },
-  ],
 });
 
 const Horario = mongoose.model('Horario', HorarioSchema);
 
-// User Schema and Model
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -58,7 +46,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Endpoints de API
 app.get('/horarios', async (req, res) => {
   try {
     const horarios = await Horario.find();
@@ -81,19 +68,20 @@ app.get('/horarios/:id', async (req, res) => {
 });
 
 app.post('/horarios', async (req, res) => {
-  const { name, budget, category } = req.body;
-
-  const horario = new Horario({
-    name,
-    budget,
-    category,
-    services: [],
-  });
-
   try {
+    const { name, horarios, category } = req.body; 
+    if (!name || !horarios || !category) {
+      throw new Error('Campos obrigatórios não preenchidos');
+    }
+    const horario = new Horario({
+      name,
+      horarios,
+      category: { name: category },
+    });
     const newHorario = await horario.save();
     res.status(201).json(newHorario);
   } catch (error) {
+    console.error(error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -122,14 +110,13 @@ app.delete('/horarios/:id', async (req, res) => {
   }
 });
 
-// User Registration and Login Endpoints
 app.post('/register', async (req, res) => {
   try {
     const { username, password, name, email } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); 
     const user = new User({ username, password: hashedPassword, name, email });
     await user.save();
-    res.json({ message: 'User created successfully!' });
+    res.json({ message: 'Usuário criado com sucesso!' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -140,13 +127,13 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      return res.status(401).json({ message: 'Invalid password' });
+      return res.status(401).json({ message: 'Senha inválida' });
     }
-    res.json({ message: 'Logged in successfully!' });
+    res.json({ message: 'Usuário logado com sucesso!' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

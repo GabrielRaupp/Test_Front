@@ -42,7 +42,7 @@ function Horarios() {
   };
 
   return (
-    <div className={styles.horario_container}>
+    <div className={styles.container}>
       <div className={styles.title_container}>
         <h1>Meus Horários</h1>
         <LinkButton to="/newhorario" text="Montar horário" customClass={styles.addHorarioButton} />
@@ -54,10 +54,11 @@ function Horarios() {
             <HorarioCard
               id={horario._id}
               name={horario.name}
-              budget={horario.budget}
+              horario={horario.horarios}  // Modificado para receber o horário
               category={horario.category?.name || 'Sem categoria'}
               key={horario._id || horario.id}
               handleRemove={removeHorario}
+              customClass={styles.horarioCard}
             />
           ))
         ) : (

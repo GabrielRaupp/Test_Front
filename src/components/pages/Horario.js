@@ -25,7 +25,7 @@ function Horario() {
           setType('error');
         }
       } catch (error) {
-        console.error('Erro ao buscar horário:', error);
+        console.error("Erro ao buscar horário:", error);
         setMessage('Erro ao buscar o horário!');
         setType('error');
       }
@@ -35,12 +35,6 @@ function Horario() {
   }, [id]);
 
   const editPost = async (updatedHorario) => {
-    if (updatedHorario.budget < updatedHorario.cost) {
-      setMessage('O Orçamento não pode ser menor que o custo do projeto!');
-      setType('error');
-      return;
-    }
-
     try {
       await fetch(`http://localhost:3000/horarios/${id}`, {
         method: 'PUT',
@@ -52,7 +46,7 @@ function Horario() {
       setMessage('Horário atualizado com sucesso!');
       setType('success');
     } catch (error) {
-      console.error('Erro ao atualizar horário:', error);
+      console.error("Erro ao atualizar horário:", error);
       setMessage('Erro ao atualizar o horário!');
       setType('error');
     }
@@ -72,19 +66,18 @@ function Horario() {
               {!showHorarioForm ? (
                 <div className={styles.horario_info}>
                   <p>
-                    <span>Categoria:</span>{' '}
-                    {horario.category?.name || 'Sem categoria'}
+                    <span>Categoria:</span> {horario.category?.name || 'Sem categoria'}
                   </p>
                   <p>
-                    <span>Orçamento:</span> R${horario.budget}
+                    <span>Horário:</span> {horario.horarios}  {/* Exibe o horário */}
                   </p>
                 </div>
               ) : (
                 <div className={styles.horario_info}>
                   <HorarioForm
-                    handleSubmit={editPost}
+                    handleSubmit={editPost} // Envia para a função de edição
                     btnText="Concluir edição"
-                    horarioData={horario}
+                    horarioData={horario} // Passa os dados do horário para o formulário
                   />
                 </div>
               )}
@@ -99,4 +92,3 @@ function Horario() {
 }
 
 export default Horario;
-
